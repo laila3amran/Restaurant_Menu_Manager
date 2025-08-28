@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Menu Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #555879;
+            --secondary: #98A1BC;
+            --accent: #DED3C4;
+            --bg: #F4EBD3;
+        }
+        .text-primary { color: var(--primary); }
+        .bg-primary { background-color: var(--primary); }
+        .text-secondary { color: var(--secondary); }
+        .bg-secondary { background-color: var(--secondary); }
+        .bg-accent { background-color: var(--accent); }
+        .bg-bg { background-color: var(--bg); }
+    </style>
+</head>
+<body class="bg-bg min-h-screen flex flex-col">
+
+<!-- Navbar -->
+<nav class="bg-primary text-white shadow-md">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="text-2xl font-bold">🍴 Restaurant Manager</div>
+        <div class="space-x-4">
+            <a href="{{ url_for('menu') }}" class="hover:bg-secondary px-3 py-2 rounded-lg transition">Menu</a>
+            <a href="{{ url_for('add_item') }}" class="hover:bg-secondary px-3 py-2 rounded-lg transition">Add Item</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Flash messages -->
+<div class="container mx-auto px-6 mt-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="mb-4 px-4 py-2 rounded-lg {% if category=='success' %}bg-green-100 text-green-800{% elif category=='error' %}bg-red-100 text-red-800{% elif category=='info' %}bg-blue-100 text-blue-800{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</div>
+
+<!-- Page Content -->
+<div class="container mx-auto px-6 py-6 flex-1">
+    {% block content %}{% endblock %}
+</div>
+
+<!-- Footer -->
+<footer class="bg-primary text-white py-4 mt-auto text-center">
+    &copy; {{ current_year|default('2025') }} Restaurant Menu Manager
+</footer>
+
+</body>
+</html>
